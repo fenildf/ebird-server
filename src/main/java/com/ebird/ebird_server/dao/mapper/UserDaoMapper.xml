@@ -3,5 +3,48 @@
 <mapper namespace="com.ebird.ebird_server.dao.UserDao">
      <update id="updateLasterLoginTime" parameterType="com.ebird.ebird_entity.dto.UserDto">
         UPDATE userInfo set lastloginTime=#{lastloginTime}  WHERE id=#{id}
-    </update>     
+    </update>  
+    
+    <insert id="savaUser" parameterType="com.ebird.ebird_entity.entity.UserEntity">
+		     INSERT INTO userInfo(
+					birthday,
+					username,
+					password,
+					email,
+					telphone,
+					degree,
+					registerTime,
+					avatar,
+					remark
+			 ) VALUES(
+					#{birthday},
+					#{username},
+					#{password},
+					#{email},
+					#{telphone},
+					#{degree},
+					#{registerTime},
+					#{avatar},
+					#{remark}
+			 )
+     </insert>
+     
+     <update id="editUser" parameterType="com.ebird.ebird_entity.entity.UserEntity">
+        UPDATE userInfo set
+          	   <if test="birthday !=null">birthday=#{birthday},</if>
+			   <if test="username !=null">username=#{username},</if>
+			   <if test="password !=null">password=#{password},</if>
+			   <if test="avatar !=null and avatar!='' ">avatar=#{avatar},</if>
+			   <if test="email !=null">email=#{email},</if>
+			   <if test="telphone !=null">telphone=#{telphone},</if>
+			   <if test="updateTime !=null">updateTime=#{updateTime}</if>
+        WHERE id=#{id}
+     </update>
+     
+     
+     <update id="updatePassword" parameterType="hashmap">
+       update userInfo t set t.password=#{password} where t.id=#{userId}
+     </update>
+    
+       
 </mapper>
